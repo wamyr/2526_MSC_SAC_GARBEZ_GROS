@@ -10,6 +10,7 @@
 
 #include "user_interface/shell.h"
 
+int led_init();
 int led_control(h_shell_t* h_shell, int argc, char** argv);
 
 #endif /* INC_LED_H_ */
