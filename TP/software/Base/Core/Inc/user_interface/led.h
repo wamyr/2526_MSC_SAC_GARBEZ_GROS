@@ -10,6 +10,8 @@
 
 #include "user_interface/shell.h"
 
+#define TWO_ARGUMENTS 2
+
 int led_init();
 int led_control(h_shell_t* h_shell, int argc, char** argv);
 

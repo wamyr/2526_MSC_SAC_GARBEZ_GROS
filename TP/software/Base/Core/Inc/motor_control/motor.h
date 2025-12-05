@@ -10,6 +10,9 @@
 
 #define ARR_VALUE 8499 //résolution de plus de 10 bits
 #define PSC_VALUE 0
+#define COMMAND_MAX_VALUE 8500
+#define COMMAND_HALF_MAX_VALUE 4250
+#define TWO_ARGUMENTS 2
 
 #include "tim.h"
 #include "user_interface/shell.h"

@@ -15,7 +15,7 @@ int led_control(h_shell_t* h_shell, int argc, char** argv)
 {
 	int size;
 
-	if(argc!=2){
+	if(argc!=TWO_ARGUMENTS){
 		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Need 2 arguments : LED on/off/toggle\r\n");
 		h_shell->drv.transmit(h_shell->print_buffer, size);
 		return HAL_ERROR;
