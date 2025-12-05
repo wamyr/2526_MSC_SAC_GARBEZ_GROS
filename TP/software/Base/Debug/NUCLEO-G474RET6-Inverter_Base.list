@@ -3251,7 +3251,7 @@ int motor_start(h_shell_t* h_shell, int argc, char** argv){
  80015d8:	2100      	movs	r1, #0
  80015da:	4837      	ldr	r0, [pc, #220]	@ (80016b8 <motor_start+0x144>)
  80015dc:	f003 fa72 	bl	8004ac4 <HAL_TIM_PWM_Start>
-		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2); // dead time : 100ns so 17 tick
  80015e0:	2104      	movs	r1, #4
  80015e2:	4835      	ldr	r0, [pc, #212]	@ (80016b8 <motor_start+0x144>)
  80015e4:	f003 fa6e 	bl	8004ac4 <HAL_TIM_PWM_Start>

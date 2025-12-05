@@ -30,7 +30,7 @@ int motor_start(h_shell_t* h_shell, int argc, char** argv){
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, COMMAND_HALF_MAX_VALUE);
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_HALF_MAX_VALUE);
 		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1); //We try to start the PWM if a nicest way but it didn't work so we start them on by one.
-		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2); // dead time : 100ns so 17 tick
 		HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1);
 		HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
 		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "motor started\r\n");
