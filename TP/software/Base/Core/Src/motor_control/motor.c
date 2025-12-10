@@ -12,6 +12,8 @@ int ccr_value = 0 ;
 
 int motor_start(h_shell_t* h_shell, int argc, char** argv); //we can initiate those functions here because we will only use them INSIDE this file
 int motor_speed(h_shell_t* h_shell, int argc, char** argv);
+void motor_ramp_update(int speed_order);
+static inline void delay_tim16_periods(uint16_t periods);
 
 int motor_init(){
 	shell_add(&hshell1, "motor", motor_start, "Control motor");
@@ -55,17 +57,21 @@ int motor_start(h_shell_t* h_shell, int argc, char** argv){
 
 int motor_speed(h_shell_t* h_shell, int argc, char** argv){
 	int size;
-	int speed = atoi(argv[1]);
+	int speed_order = atoi(argv[1]);
 	if(argc!=TWO_ARGUMENTS){
 		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Need 2 arguments : motor start/stop\r\n");
 		h_shell->drv.transmit(h_shell->print_buffer, size);
 		return HAL_ERROR;
 	}
 
-	if((speed > 0) && (speed < COMMAND_MAX_VALUE)){
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, speed);
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE-speed);
-		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "motor speed : %d. Don't forget to start the motor before\r\n", speed);
+	if((speed_order > 0) && (speed_order < COMMAND_MAX_VALUE)){
+
+		motor_ramp_update(speed_order);
+
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, speed_order); // to make sure in the end we have the right value
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE-speed_order);
+
+		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "motor speed : %d. Don't forget to start the motor before\r\n", speed_order);
 		h_shell->drv.transmit(h_shell->print_buffer, size);
 		return HAL_OK;
 	}
@@ -77,4 +83,35 @@ int motor_speed(h_shell_t* h_shell, int argc, char** argv){
 }
 
 
+void motor_ramp_update(int speed_order) {
+
+    int speed = __HAL_TIM_GET_COMPARE(&htim1, TIM_CHANNEL_1);
+    while(abs(speed_order - speed) > INCREMENT) {
+        int increment = (speed_order > speed) ? INCREMENT : -INCREMENT;
+        speed += increment;
+        __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, speed);
+        __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE - speed);
+        delay_tim16_periods(1);
+    }
+}
+
+static inline void delay_tim16_periods(uint16_t us)
+{
+	// 1 µs = 1 tick si tu as mis PSC pour que le timer tourne à 1 MHz
+	    TIM16->EGR |= TIM_EGR_UG;           // resynchronise immédiatement CNT = 0
+	    TIM16->SR = 0;                      // clear flag
+	    uint32_t ticks = us;                // si 1 tick = 1 µs
+
+	    for(uint32_t i = 0; i < ticks; i++)
+	    {
+	        while(!(TIM16->SR & TIM_SR_UIF));   // polling pur
+	        TIM16->SR = 0;                      // ou TIM16->SR &= ~TIM_SR_UIF;
+	    }
+	}
+
+
+/*
+ * Vous pouvez effectuer une rampe entre la valeur actuelle et la valeur cible avec un incrément bien réfléchi de la PWM
+ * à un intervalle de temps régulier. Par la suite votre asservissement fera cela tout seul.
+*/
 

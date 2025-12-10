@@ -13,6 +13,8 @@
 #define COMMAND_MAX_VALUE 8500
 #define COMMAND_HALF_MAX_VALUE 4250
 #define TWO_ARGUMENTS 2
+#define DELAY_MOTOR_SPEED 50
+#define INCREMENT 200
 
 #include "tim.h"
 #include "user_interface/shell.h"
