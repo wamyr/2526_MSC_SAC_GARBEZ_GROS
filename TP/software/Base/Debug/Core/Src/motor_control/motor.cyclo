@@ -1,5 +1,5 @@
-../Core/Src/motor_control/motor.c:18:5:motor_init	1
-../Core/Src/motor_control/motor.c:23:5:motor_start	4
-../Core/Src/motor_control/motor.c:58:5:motor_speed	4
-../Core/Src/motor_control/motor.c:86:6:motor_ramp_update	3
-../Core/Src/motor_control/motor.c:98:20:delay_tim16_periods	3
+../Core/Src/motor_control/motor.c:19:5:motor_init	1
+../Core/Src/motor_control/motor.c:24:5:motor_start	4
+../Core/Src/motor_control/motor.c:59:5:motor_speed	4
+../Core/Src/motor_control/motor.c:87:6:motor_ramp_update	3
+../Core/Src/motor_control/motor.c:99:13:delay_periods	2
