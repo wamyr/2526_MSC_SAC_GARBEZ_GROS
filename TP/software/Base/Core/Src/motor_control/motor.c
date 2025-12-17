@@ -58,9 +58,9 @@ int motor_start(h_shell_t* h_shell, int argc, char** argv){
 
 int motor_speed(h_shell_t* h_shell, int argc, char** argv){
 	int size;
-	int speed_order = atoi(argv[1]);
+	int speed_order = atoi(argv[1])*CONVERSION_POURCENT_TO_MAX_VALUE;
 	if(argc!=TWO_ARGUMENTS){
-		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Need 2 arguments : motor start/stop\r\n");
+		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Need 2 arguments : speed duty cycle in pourcent\r\n");
 		h_shell->drv.transmit(h_shell->print_buffer, size);
 		return HAL_ERROR;
 	}
@@ -77,7 +77,7 @@ int motor_speed(h_shell_t* h_shell, int argc, char** argv){
 		return HAL_OK;
 	}
 
-	size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Speed value does not match the require value\r\n");
+	size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Duty cycle value does not match the require value\r\n");
 	h_shell->drv.transmit(h_shell->print_buffer, size);
 	return HAL_ERROR;
 
