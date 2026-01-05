@@ -14,6 +14,13 @@
 #include "./motor_control/motor.h"
 #include "./user_interface/led.h"
 #include "./motor_control/asserv.h"
+#include "tim.h"
+#include "user_interface/shell.h"
+#include "./acquisition/input_analog.h"
+#define VDC 12
+
+extern int start_asserv_flag ;
+extern PI_Controller Current_PI_Controller ;
 
 void init_device();
 void loop();

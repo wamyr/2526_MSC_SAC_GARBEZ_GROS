@@ -15,10 +15,14 @@
 #define TWO_ARGUMENTS 2
 #define DELAY_RAMP_CRR_VALUE 50000 // less than 1 us
 #define INCREMENT 200
-#define PERCENT_TO_MAX_VALUE_CONVERSION 85 // conversion to max CRR Value
+#define PERCENT_TO_MAX_CRR_VALUE_CONVERSION 85 // conversion to max CRR Value
+#define DUTY_CYCLE_MAX_VALUE 100
 
 #include "tim.h"
 #include "user_interface/shell.h"
+#include "./app.h"
+
+extern int motor_command;
 
 int motor_init();
 

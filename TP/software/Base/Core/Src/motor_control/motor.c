@@ -9,6 +9,7 @@
 #include "stdlib.h"
 
 int ccr_value = 0 ;
+int motor_command = 0 ;
 
 int motor_start(h_shell_t* h_shell, int argc, char** argv); //we can initiate those functions here because we will only use them INSIDE this file
 int motor_speed(h_shell_t* h_shell, int argc, char** argv);
@@ -60,27 +61,28 @@ int motor_speed(h_shell_t* h_shell, int argc, char** argv){
 	int size;
 
 	if(argc!=TWO_ARGUMENTS){
-		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Need 2 arguments : speed duty cycle in pourcent\r\n");
+		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Need 2 arguments : motor duty cycle in pourcent\r\n");
 		h_shell->drv.transmit(h_shell->print_buffer, size);
 		return HAL_ERROR;
 	}
 
-	//int speed_order = atoi(argv[1])*PERCENT_TO_MAX_VALUE_CONVERSION;
-	int speed_order = atoi(argv[1]);
-	if((speed_order > 0) && (speed_order < COMMAND_MAX_VALUE)){
+	//int speed_order = atoi(argv[1])*PERCENT_TO_MAX_CRR_VALUE_CONVERSION;
+	int user_command = atoi(argv[1]);
+	if((user_command > 0) && (user_command < DUTY_CYCLE_MAX_VALUE)){
 
 		/*
 		motor_ramp_update(h_shell, speed_order);
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, speed_order); // to make sure in the end we have the right value
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE-speed_order);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, duty_cycle_command); // to make sure in the end we have the right value
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE-duty_cycle_command);
 
-		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "motor speed : %d. Don't forget to start the motor before\r\n", speed_order);
+		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "motor speed : %d. Don't forget to start the motor before\r\n", duty_cycle_command);
 		h_shell->drv.transmit(h_shell->print_buffer, size);
 		*/
 
+		start_asserv_flag = 1 ;
+		motor_command = user_command ; // for now
 
-
-		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "pi output value : %d. Don't forget to start the motor before\r\n", speed_order);
+		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Controller working. Don't forget to start the motor before\r\n");
 		h_shell->drv.transmit(h_shell->print_buffer, size);
 
 		return HAL_OK;

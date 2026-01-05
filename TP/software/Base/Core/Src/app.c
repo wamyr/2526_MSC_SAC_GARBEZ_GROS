@@ -9,6 +9,8 @@
 
 #include "user_interface/shell.h"
 
+PI_Controller Current_PI_Controller ;
+int start_asserv_flag = 0 ;
 
 static char shell_uart2_received_char;
 
@@ -30,7 +32,6 @@ void init_device(void){
 	// MOTOR
 	motor_init();
 	// ASSERV (PID)
-	PI_Controller Current_PI_Controller ;
 	Current_PI_Controller_Init(&Current_PI_Controller);
 	//
 	// Initialisation data acquistion
@@ -61,12 +62,17 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 }
 
 void loop(){
-	/*
-	int size;
-	h_shell_t* h_shell= &hshell1;
-	size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "p \r\n");
-	h_shell->drv.transmit(h_shell->print_buffer, size);
-	HAL_Delay(300);
-	*/ // print en continue donc on pourra piloter le moteur ici en continue tout en ayant la possibilité de changer la consigne
+
+	if(start_asserv_flag != 0)
+	{
+		float corrected_motor_command = PI_Controller_Update(&Current_PI_Controller, motor_command, Calculer_Courant_Moyen());
+		int duty_cycle_command = (int)((corrected_motor_command/VDC + 1)*0.5 + 0.5 ); //valeur magique à changer
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, duty_cycle_command*PERCENT_TO_MAX_CRR_VALUE_CONVERSION); // to make sure in the end we have the right value
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE-duty_cycle_command*PERCENT_TO_MAX_CRR_VALUE_CONVERSION);
+/*
+		int size = snprintf((&hshell1)->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Current duty cycle : %d.\r\n", duty_cycle_command);
+		(&hshell1)->drv.transmit((&hshell1)->print_buffer, size);
+*/
+	}
 
 }

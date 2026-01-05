@@ -12,5 +12,6 @@
 #include "user_interface/shell.h"
 
 int input_analog_init();
+float Calculer_Courant_Moyen();
 
 #endif /* INC_INPUT_ANALOG_H_ */

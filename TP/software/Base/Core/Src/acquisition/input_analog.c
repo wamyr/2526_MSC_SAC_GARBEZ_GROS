@@ -17,7 +17,6 @@ uint16_t adc_buffer[10];
 #define SENSOR_SENSITIVITY  0.05f   // GO-SME 10 (0.05 V/A)
 #define V_OFFSET_THEO       (ADC_VREF / 2.0f)
 
-static float Calculer_Courant_Moyen(void);
 
 int cmd_current(h_shell_t* h_shell, int argc, char** argv) {
     int size;
@@ -67,7 +66,7 @@ int input_analog_init() {
     return shell_add(&hshell1, "current", cmd_current, "Get current sensor values");
 }
 
-static float Calculer_Courant_Moyen(void) {
+float Calculer_Courant_Moyen(void) {
     uint32_t sum = 0;
 
     //Moyenne du buffer pour stabiliser la lecture
