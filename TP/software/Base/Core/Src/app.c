@@ -65,7 +65,7 @@ void loop(){
 
 	if(start_asserv_flag != 0)
 	{
-		float corrected_motor_command = PI_Controller_Update(&Current_PI_Controller, motor_command, Calculer_Courant_Moyen());
+		float corrected_motor_command = PI_Controller_Update(&Current_PI_Controller, motor_command, Calculer_Courant_Moyen()); // motor command est 100x trop grand !!
 		int duty_cycle_command = (int)((corrected_motor_command/VDC + 1)*0.5 + 0.5 ); //valeur magique à changer
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, duty_cycle_command*PERCENT_TO_MAX_CRR_VALUE_CONVERSION); // to make sure in the end we have the right value
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE-duty_cycle_command*PERCENT_TO_MAX_CRR_VALUE_CONVERSION);
