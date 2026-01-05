@@ -15,7 +15,7 @@
 #define TWO_ARGUMENTS 2
 #define DELAY_MOTOR_SPEED 50000
 #define INCREMENT 200
-#define CONVERSION_POURCENT_TO_MAX_VALUE 85
+#define PERCENT_TO_MAX_VALUE_CONVERSION 85
 
 #include "tim.h"
 #include "user_interface/shell.h"
