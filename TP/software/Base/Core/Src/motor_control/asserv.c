@@ -7,78 +7,94 @@
 
 #include "motor_control/asserv.h"
 
-void PIDController_Init(PIDController *pid) {
+void Current_PI_Controller_Init(PI_Controller *pi) {
 
 	/* Clear controller variables */
-	pid->integrator = 0.0f;
-	pid->prevError  = 0.0f;
+	pi->integrator = 0.0f;
+	pi->prevError  = 0.0f;
 
-	pid->differentiator  = 0.0f;
-	pid->prevMeasurement = 0.0f;
+	pi->prevMeasurement = 0.0f;
 
-	pid->out = 0.0f;
+	pi->out = 0.0f;
+
+	/* PI coefficient values */
+	pi->Kp = 0.0112664025854474 ;
+	pi->Ki = 4.7381474597804 ;
+
+	/* Sample Time */
+	pi->T = 0.001 ;
 
 }
 
-float PIDController_Update(PIDController *pid, float setpoint, float measurement) {
+void Speed_PI_Controller_Init(PI_Controller *pi) {
+
+	/* Clear controller variables */
+	pi->integrator = 0.0f;
+	pi->prevError  = 0.0f;
+
+	pi->prevMeasurement = 0.0f;
+
+	pi->out = 0.0f;
+
+	/* PI coefficient values */
+	pi->Kp = 0.0f ;
+	pi->Ki = 0.0f ;
+
+	/* Sample Time */
+	pi->T = 0.001 ;
+
+}
+
+float PI_Controller_Update(PI_Controller *pi, float setpoint, float measurement) {
 
 	/*
 	 * Error signal
 	 */
 	float error = setpoint - measurement;
 
-
 	/*
 	 * Proportional
 	 */
-	float proportional = pid->Kp * error;
-
+	float proportional = pi->Kp * error;
 
 	/*
 	 * Integral
 	 */
-	pid->integrator = pid->integrator + 0.5f * pid->Ki * pid->T * (error + pid->prevError);
+	pi->integrator = pi->integrator + 0.5f * pi->Ki * pi->T * (error + pi->prevError);
 
 	/* Anti-wind-up via integrator clamping */
-	if (pid->integrator > pid->limMaxInt) {
+	if (pi->integrator > pi->limMaxInt) {
 
-		pid->integrator = pid->limMaxInt;
+		pi->integrator = pi->limMaxInt;
 
-	} else if (pid->integrator < pid->limMinInt) {
+	} else if (pi->integrator < pi->limMinInt) {
 
-		pid->integrator = pid->limMinInt;
+		pi->integrator = pi->limMinInt;
 
 	}
-
-
-	/*
-	 * Derivative (band-limited differentiator)
-	 */
-
-	pid->differentiator = -(2.0f * pid->Kd * (measurement - pid->prevMeasurement)	/* Note: derivative on measurement, therefore minus sign in front of equation! */
-			+ (2.0f * pid->tau - pid->T) * pid->differentiator)
-                        		/ (2.0f * pid->tau + pid->T);
-
 
 	/*
 	 * Compute output and apply limits
 	 */
-	pid->out = proportional + pid->integrator + pid->differentiator;
+	pi->out = proportional + pi->integrator ;
 
-	if (pid->out > pid->limMax) {
+	if (pi->out > pi->limMax) {
 
-		pid->out = pid->limMax;
+		pi->out = pi->limMax;
 
-	} else if (pid->out < pid->limMin) {
+	} else if (pi->out < pi->limMin) {
 
-		pid->out = pid->limMin;
+		pi->out = pi->limMin;
 
 	}
 
 	/* Store error and measurement for later use */
-	pid->prevError       = error;
-	pid->prevMeasurement = measurement;
+	pi->prevError       = error;
+	pi->prevMeasurement = measurement;
 
 	/* Return controller output */
-	return pid->out;
+	return pi->out;
 }
+
+
+

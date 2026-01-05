@@ -13,6 +13,7 @@
 
 #include "./motor_control/motor.h"
 #include "./user_interface/led.h"
+#include "./motor_control/asserv.h"
 
 void init_device();
 void loop();

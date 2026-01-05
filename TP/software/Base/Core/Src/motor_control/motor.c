@@ -58,22 +58,31 @@ int motor_start(h_shell_t* h_shell, int argc, char** argv){
 
 int motor_speed(h_shell_t* h_shell, int argc, char** argv){
 	int size;
-	int speed_order = atoi(argv[1])*PERCENT_TO_MAX_VALUE_CONVERSION;
+
 	if(argc!=TWO_ARGUMENTS){
 		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Need 2 arguments : speed duty cycle in pourcent\r\n");
 		h_shell->drv.transmit(h_shell->print_buffer, size);
 		return HAL_ERROR;
 	}
 
+	//int speed_order = atoi(argv[1])*PERCENT_TO_MAX_VALUE_CONVERSION;
+	int speed_order = atoi(argv[1]);
 	if((speed_order > 0) && (speed_order < COMMAND_MAX_VALUE)){
 
+		/*
 		motor_ramp_update(h_shell, speed_order);
-
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, speed_order); // to make sure in the end we have the right value
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE-speed_order);
 
 		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "motor speed : %d. Don't forget to start the motor before\r\n", speed_order);
 		h_shell->drv.transmit(h_shell->print_buffer, size);
+		*/
+
+
+
+		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "pi output value : %d. Don't forget to start the motor before\r\n", speed_order);
+		h_shell->drv.transmit(h_shell->print_buffer, size);
+
 		return HAL_OK;
 	}
 
@@ -87,19 +96,19 @@ int motor_speed(h_shell_t* h_shell, int argc, char** argv){
 void motor_ramp_update(h_shell_t* h_shell, int speed_order) {
 
 	int speed = __HAL_TIM_GET_COMPARE(&htim1, TIM_CHANNEL_1);
+	int increment = (speed_order > speed) ? INCREMENT : -INCREMENT;
 	while(abs(speed_order - speed) > INCREMENT) {
-		int increment = (speed_order > speed) ? INCREMENT : -INCREMENT;
 		speed += increment;
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, speed);
 		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE - speed);
-		delay_periods(h_shell, DELAY_MOTOR_SPEED);
+		delay_periods(h_shell, DELAY_RAMP_CRR_VALUE);
 	}
 }
 
-static void delay_periods(h_shell_t* h_shell, uint16_t us)
+static void delay_periods(h_shell_t* h_shell, uint16_t crr_to_reach_value)
 {
 	TIM16->CNT = 0 ;
-	while (TIM16->CNT < us){
+	while (TIM16->CNT < crr_to_reach_value){
 		/*
 		int size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "wait ramp on going\r\n");
 		h_shell->drv.transmit(h_shell->print_buffer, size);

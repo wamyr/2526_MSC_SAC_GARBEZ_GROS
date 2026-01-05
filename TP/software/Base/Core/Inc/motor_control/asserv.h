@@ -13,10 +13,6 @@ typedef struct {
 	/* Controller gains */
 	float Kp;
 	float Ki;
-	float Kd;
-
-	/* Derivative low-pass filter time constant */
-	float tau;
 
 	/* Output limits */
 	float limMin;
@@ -32,15 +28,18 @@ typedef struct {
 	/* Controller "memory" */
 	float integrator;
 	float prevError;			/* Required for integrator */
-	float differentiator;
 	float prevMeasurement;		/* Required for differentiator */
 
 	/* Controller output */
 	float out;
 
-} PIDController;
+} PI_Controller;
 
-void  PIDController_Init(PIDController *pid);
-float PIDController_Update(PIDController *pid, float setpoint, float measurement);
+
+
+
+void  Current_PI_Controller_Init(PI_Controller *pi);
+void Speed_PI_Controller_Init(PI_Controller *pi);
+float PI_Controller_Update(PI_Controller *pi, float setpoint, float measurement);
 
 #endif /* INC_MOTOR_CONTROL_ASSERV_H_ */

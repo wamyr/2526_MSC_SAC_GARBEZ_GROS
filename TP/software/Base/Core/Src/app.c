@@ -30,7 +30,8 @@ void init_device(void){
 	// MOTOR
 	motor_init();
 	// ASSERV (PID)
-	//	asserv_init();
+	PI_Controller Current_PI_Controller ;
+	Current_PI_Controller_Init(&Current_PI_Controller);
 	//
 	// Initialisation data acquistion
 	// ANALOG INPUT
@@ -60,5 +61,12 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 }
 
 void loop(){
+	/*
+	int size;
+	h_shell_t* h_shell= &hshell1;
+	size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "p \r\n");
+	h_shell->drv.transmit(h_shell->print_buffer, size);
+	HAL_Delay(300);
+	*/ // print en continue donc on pourra piloter le moteur ici en continue tout en ayant la possibilité de changer la consigne
 
 }

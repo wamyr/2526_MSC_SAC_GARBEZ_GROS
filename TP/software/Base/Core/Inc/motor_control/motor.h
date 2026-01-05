@@ -13,9 +13,9 @@
 #define COMMAND_MAX_VALUE 8500
 #define COMMAND_HALF_MAX_VALUE 4250
 #define TWO_ARGUMENTS 2
-#define DELAY_MOTOR_SPEED 50000
+#define DELAY_RAMP_CRR_VALUE 50000 // less than 1 us
 #define INCREMENT 200
-#define PERCENT_TO_MAX_VALUE_CONVERSION 85
+#define PERCENT_TO_MAX_VALUE_CONVERSION 85 // conversion to max CRR Value
 
 #include "tim.h"
 #include "user_interface/shell.h"
