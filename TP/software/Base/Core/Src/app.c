@@ -63,7 +63,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 
 void loop(){
 
-	if(start_asserv_flag != 0)
+	if(start_asserv_flag != 0) //timer1 déclenche un event à CRR 0 et CRR = ARR +1 et l'ADC lit quand il est rempli déclenche le DMA (DMA donc interruption)
 	{
 		float corrected_motor_command = PI_Controller_Update(&Current_PI_Controller, motor_command, Calculer_Courant_Moyen()); // motor command est 100x trop grand !!
 		int duty_cycle_command = (int)((corrected_motor_command/VDC + 1)*0.5 + 0.5 ); //valeur magique à changer

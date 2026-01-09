@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 
-extern ADC_HandleTypeDef hadc1;
+extern ADC_HandleTypeDef hadc1; // il faut config l'ADC en trigger intern pour que le CH4 le front montant le trigger
 uint16_t adc_buffer[10];
 
 #define ADC_RESOLUTION      4096.0f
