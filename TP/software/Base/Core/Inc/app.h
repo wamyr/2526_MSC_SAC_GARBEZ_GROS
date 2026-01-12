@@ -19,7 +19,7 @@
 #include "./acquisition/input_analog.h"
 #include "./acquisition/input_encoder.h"
 
-#define VDC 12
+#define VDC 48
 #define SPEED_ASSERV_PERIOD 50
 
 extern int start_asserv_flag ;

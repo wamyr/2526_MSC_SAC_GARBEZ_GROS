@@ -70,14 +70,14 @@ int motor_speed(h_shell_t* h_shell, int argc, char** argv){
 	int user_command = atoi(argv[1]);
 	if((user_command > -MOTOR_SPEED_MAX_VALUE) && (user_command < MOTOR_SPEED_MAX_VALUE)){
 
-		/*
-		motor_ramp_update(h_shell, speed_order);
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, duty_cycle_command); // to make sure in the end we have the right value
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE-duty_cycle_command);
+/*
+		motor_ramp_update(h_shell, user_command*100/3000*PERCENT_TO_MAX_CRR_VALUE_CONVERSION);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, user_command*100/3000*PERCENT_TO_MAX_CRR_VALUE_CONVERSION); // to make sure in the end we have the right value
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE-user_command*100/3000*PERCENT_TO_MAX_CRR_VALUE_CONVERSION);
 
-		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "motor speed : %d. Don't forget to start the motor before\r\n", duty_cycle_command);
+		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "motor speed : %d. Don't forget to start the motor before\r\n", user_command);
 		h_shell->drv.transmit(h_shell->print_buffer, size);
-		*/
+*/
 
 		start_asserv_flag = 1 ;
 		motor_command = user_command*2 *PI / 60 ; // for now

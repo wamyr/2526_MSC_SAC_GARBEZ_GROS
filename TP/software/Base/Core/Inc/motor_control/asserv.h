@@ -36,7 +36,7 @@ typedef struct {
 } PI_Controller;
 
 
-
+#define VDC 48 //doublon
 
 void  Current_PI_Controller_Init(PI_Controller *pi);
 void Speed_PI_Controller_Init(PI_Controller *pi);

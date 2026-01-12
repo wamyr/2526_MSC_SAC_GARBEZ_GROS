@@ -2,4 +2,4 @@
 ../Core/Src/app.c:47:9:shell_uart2_transmit	16	static
 ../Core/Src/app.c:53:9:shell_uart2_receive	16	static
 ../Core/Src/app.c:59:6:HAL_UART_RxCpltCallback	16	static
-../Core/Src/app.c:67:6:loop	24	static
+../Core/Src/app.c:67:6:loop	56	static

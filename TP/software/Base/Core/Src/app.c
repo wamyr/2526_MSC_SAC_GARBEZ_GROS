@@ -72,20 +72,26 @@ void loop(){
 	{
 		if(speed_asserv)
 		{
-			current_command = PI_Controller_Update(&Speed_PI_Controller, motor_command,-rpm);
+			//current_command = PI_Controller_Update(&Speed_PI_Controller, motor_command,rpm);
+			current_command = 3 ;
 			speed_asserv = 0 ;
+			/*
+			int size = snprintf((&hshell1)->print_buffer, SHELL_PRINT_BUFFER_SIZE, "current : %.2f.\r\n", current_command);
+			(&hshell1)->drv.transmit((&hshell1)->print_buffer, size);
+			*/
 		}
 		if(current_asserv)
 		{
-			float corrected_motor_command = PI_Controller_Update(&Current_PI_Controller, current_command, Calculer_Courant_Moyen()); // motor command est 100x trop grand !!
+			float measure_current = Calculer_Courant_Moyen();
+			float corrected_motor_command = PI_Controller_Update(&Current_PI_Controller, current_command, measure_current); // motor command est 100x trop grand !!
 			int crr_value_command = (int)((corrected_motor_command/VDC + 1)*0.5*100*PERCENT_TO_MAX_CRR_VALUE_CONVERSION + 0.5 ); //valeur magique à changer
 			__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, crr_value_command); // to make sure in the end we have the right value
 			__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE-crr_value_command);
 			current_asserv = 0 ;
-/*
-		int size = snprintf((&hshell1)->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Current duty cycle : %d.\r\n", duty_cycle_command);
-		(&hshell1)->drv.transmit((&hshell1)->print_buffer, size);
-*/
+
+			int size = snprintf((&hshell1)->print_buffer, SHELL_PRINT_BUFFER_SIZE, "voltage : %.2f measure : %.2f \r\n", corrected_motor_command, measure_current);
+			(&hshell1)->drv.transmit((&hshell1)->print_buffer, size);
+
 		}
 
 	}
