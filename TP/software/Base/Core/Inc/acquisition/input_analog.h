@@ -10,6 +10,7 @@
 
 #include "main.h"
 #include "user_interface/shell.h"
+#include "app.h"
 
 int input_analog_init();
 float Calculer_Courant_Moyen();

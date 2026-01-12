@@ -82,3 +82,13 @@ float Calculer_Courant_Moyen(void) {
 
     return courant;
 }
+
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc){
+
+	current_asserv = 1 ;
+
+
+}
+
+

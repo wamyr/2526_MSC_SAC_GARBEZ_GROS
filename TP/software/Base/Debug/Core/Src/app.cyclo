@@ -2,4 +2,4 @@
 ../Core/Src/app.c:44:9:shell_uart2_transmit	1
 ../Core/Src/app.c:50:9:shell_uart2_receive	1
 ../Core/Src/app.c:56:6:HAL_UART_RxCpltCallback	2
-../Core/Src/app.c:64:6:loop	2
+../Core/Src/app.c:64:6:loop	3
