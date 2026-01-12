@@ -20,6 +20,7 @@
 #include "./acquisition/input_encoder.h"
 
 #define VDC 12
+#define SPEED_ASSERV_PERIOD 50
 
 extern int start_asserv_flag ;
 extern PI_Controller Current_PI_Controller ;

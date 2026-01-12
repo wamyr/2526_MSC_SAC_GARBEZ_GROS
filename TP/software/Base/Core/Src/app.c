@@ -68,14 +68,13 @@ void loop(){
 
 	float current_command = 0 ;
 
-	if(start_asserv_flag != 0) //timer1 déclenche un event à CRR 0 et CRR = ARR +1 et l'ADC lit quand il est rempli déclenche le DMA (DMA donc interruption)
+	if(start_asserv_flag != 0)
 	{
 		if(speed_asserv)
 		{
-			current_command = PI_Controller_Update(&Speed_PI_Controller, motor_command,rpm);
+			current_command = PI_Controller_Update(&Speed_PI_Controller, motor_command,-rpm);
 			speed_asserv = 0 ;
 		}
-
 		if(current_asserv)
 		{
 			float corrected_motor_command = PI_Controller_Update(&Current_PI_Controller, current_command, Calculer_Courant_Moyen()); // motor command est 100x trop grand !!
