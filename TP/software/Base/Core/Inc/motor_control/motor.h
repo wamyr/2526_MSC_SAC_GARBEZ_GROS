@@ -17,6 +17,8 @@
 #define INCREMENT 200
 #define PERCENT_TO_MAX_CRR_VALUE_CONVERSION 85 // conversion to max CRR Value
 #define DUTY_CYCLE_MAX_VALUE 100
+#define MOTOR_SPEED_MAX_VALUE 750
+#define PI 3.1415
 
 #include "tim.h"
 #include "user_interface/shell.h"

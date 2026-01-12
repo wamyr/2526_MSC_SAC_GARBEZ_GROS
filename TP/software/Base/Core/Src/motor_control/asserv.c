@@ -17,12 +17,19 @@ void Current_PI_Controller_Init(PI_Controller *pi) {
 
 	pi->out = 0.0f;
 
+	/* Limit values */
+	pi->limMaxInt= 2.5;
+	pi->limMinInt= -2.5;
+
+	pi->limMax = 12 ;
+	pi->limMin = -12 ;
+
 	/* PI coefficient values */
-	pi->Kp = 0.0112664025854474 ;
-	pi->Ki = 4.7381474597804 ;
+	pi->Kp = 0.0112 ;
+	pi->Ki = 4.738 ;
 
 	/* Sample Time */
-	pi->T = 0.001 ;
+	pi->T = 0.000025 ;
 
 }
 
@@ -36,12 +43,19 @@ void Speed_PI_Controller_Init(PI_Controller *pi) {
 
 	pi->out = 0.0f;
 
+	/* Limit values */
+	pi->limMaxInt= 200;
+	pi->limMinInt= -200;
+
+	pi->limMax = 12 ;
+	pi->limMin = -12 ;
+
 	/* PI coefficient values */
-	pi->Kp = 0.0f ;
-	pi->Ki = 0.0f ;
+	pi->Kp = 0.15 ;
+	pi->Ki = 0.06 ;
 
 	/* Sample Time */
-	pi->T = 0.001 ;
+	pi->T = 0.05 ;
 
 }
 

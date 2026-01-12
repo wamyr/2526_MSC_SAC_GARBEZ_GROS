@@ -68,7 +68,7 @@ int motor_speed(h_shell_t* h_shell, int argc, char** argv){
 
 	//int speed_order = atoi(argv[1])*PERCENT_TO_MAX_CRR_VALUE_CONVERSION;
 	int user_command = atoi(argv[1]);
-	if((user_command > 0) && (user_command < DUTY_CYCLE_MAX_VALUE)){
+	if((user_command > -MOTOR_SPEED_MAX_VALUE) && (user_command < MOTOR_SPEED_MAX_VALUE)){
 
 		/*
 		motor_ramp_update(h_shell, speed_order);
@@ -80,7 +80,7 @@ int motor_speed(h_shell_t* h_shell, int argc, char** argv){
 		*/
 
 		start_asserv_flag = 1 ;
-		motor_command = user_command ; // for now
+		motor_command = user_command*2 *PI / 60 ; // for now
 
 		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Controller working. Don't forget to start the motor before\r\n");
 		h_shell->drv.transmit(h_shell->print_buffer, size);

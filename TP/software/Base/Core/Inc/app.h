@@ -17,11 +17,14 @@
 #include "tim.h"
 #include "user_interface/shell.h"
 #include "./acquisition/input_analog.h"
+#include "./acquisition/input_encoder.h"
+
 #define VDC 12
 
 extern int start_asserv_flag ;
 extern PI_Controller Current_PI_Controller ;
 extern int current_asserv ;
+extern int speed_asserv ;
 
 void init_device();
 void loop();

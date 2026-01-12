@@ -7,10 +7,13 @@
 
 #include "app.h"
 
-#include "user_interface/shell.h"
 
 PI_Controller Current_PI_Controller ;
+PI_Controller Speed_PI_Controller ;
+
 int start_asserv_flag = 0 ;
+int current_asserv = 0 ;
+int speed_asserv = 0 ;
 
 static char shell_uart2_received_char;
 
@@ -36,9 +39,9 @@ void init_device(void){
 	//
 	// Initialisation data acquistion
 	// ANALOG INPUT
-	//	input_analog_init();
+	input_analog_init();
 	// ENCODER INPUT
-	//	input_encoder_init();
+	input_encoder_init();
 }
 
 uint8_t shell_uart2_transmit(const char *pData, uint16_t size)
@@ -63,13 +66,19 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 
 void loop(){
 
-	static int current_asserv = 0 ;
+	float current_command = 0 ;
 
 	if(start_asserv_flag != 0) //timer1 déclenche un event à CRR 0 et CRR = ARR +1 et l'ADC lit quand il est rempli déclenche le DMA (DMA donc interruption)
 	{
+		if(speed_asserv)
+		{
+			current_command = PI_Controller_Update(&Speed_PI_Controller, motor_command,rpm);
+			speed_asserv = 0 ;
+		}
+
 		if(current_asserv)
 		{
-			float corrected_motor_command = PI_Controller_Update(&Current_PI_Controller, motor_command, Calculer_Courant_Moyen()); // motor command est 100x trop grand !!
+			float corrected_motor_command = PI_Controller_Update(&Current_PI_Controller, current_command, Calculer_Courant_Moyen()); // motor command est 100x trop grand !!
 			int crr_value_command = (int)((corrected_motor_command/VDC + 1)*0.5*100*PERCENT_TO_MAX_CRR_VALUE_CONVERSION + 0.5 ); //valeur magique à changer
 			__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, crr_value_command); // to make sure in the end we have the right value
 			__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE-crr_value_command);
@@ -79,6 +88,7 @@ void loop(){
 		(&hshell1)->drv.transmit((&hshell1)->print_buffer, size);
 */
 		}
+
 	}
 
 }

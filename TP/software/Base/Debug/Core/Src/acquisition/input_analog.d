@@ -38,7 +38,8 @@ Core/Src/acquisition/input_analog.o: \
  ../Core/Inc/./app.h ../Core/Inc/./user_interface/led.h \
  ../Core/Inc/./motor_control/asserv.h ../Core/Inc/tim.h \
  ../Core/Inc/user_interface/shell.h \
- ../Core/Inc/./acquisition/input_analog.h
+ ../Core/Inc/./acquisition/input_analog.h \
+ ../Core/Inc/./acquisition/input_encoder.h
 ../Core/Inc/acquisition/input_analog.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:
@@ -85,3 +86,4 @@ Core/Src/acquisition/input_analog.o: \
 ../Core/Inc/tim.h:
 ../Core/Inc/user_interface/shell.h:
 ../Core/Inc/./acquisition/input_analog.h:
+../Core/Inc/./acquisition/input_encoder.h:
