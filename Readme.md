@@ -1,5 +1,5 @@
 ## Commande MCC :
-Les bras de pont U et V sont reliés aux pins PA8, Pb13(U), PA9 et PB14(V). Ces pins sont configurées sur le Timer1 channel 1 et 2. On va générer des PWMs complémentaire décalés qui ont pour avantage de ... . 
+Les bras de pont U et V sont reliés aux pins PA8, Pb13(U), PA9 et PB14(V). Ces pins sont configurées sur le Timer1 channel 1 et 2. On va générer des PWMs complémentaire décalés qui ont pour permettent d'avoir une tension moyenne nulle au rapport cyclique 50%. Ainsi, comparé à une commande bipolaire, on génére moins d'ondulation de courant et donc  un plus faible bruint accoustique.  
 
 On va donc configurer le Timer de manière à respecter le cahier des charges. Pour les 20KHz de la PWM, on va préférer choisir le ARR le plus grand possible pour avoir une résolution maximale et donc avoir un prescaler le plus faible possible. On se retrouve à PSC = 0-1, ARR = 8500-1 qui donne une fréquence de 20KHz. Cette configuration sera sur 14 bits qui respecte le cahier des charges.
 <img width="477" height="271" alt="image" src="https://github.com/user-attachments/assets/493a3abf-24ab-4cf4-8259-352fafc4517f" />
@@ -16,7 +16,10 @@ Pour les temps morts, la datasheet des transistors donnent un deadtime de 100ns 
 Pour activer les PWMs, nous avons écrit une fonction "motor_start() qui prend en argument "start" ou "stop". Ces arguments activent ou désactives respectivement les PWMs du timer 1. Si on veut allimenter le moteur, on commence par définir le rapport cyclique à 50 pour éviter de démarrer le moteur sans le vouloir.
 Pour définir la vitesse de celui-ci, nous avons écrit une fonction "motor_speed()" qui prend en entrée, dans un premier temps, le rapport cyclique souhaitée. Cette valeur étant limitée. Dans le cas où l'on dépasserait 0% ou 100%, on reste à la valeure précédente et onn affiche un message d'erreur.
 Ces fonctions sont utilisées dans le shell et initié dans la fonction "motor init()". 
-
+```shell
+> motor start
+> speed 60
+```
 
 (Photo à prendre du résultat)
 
@@ -57,3 +60,20 @@ On obtient un gain d'environ 1016, la puissance de 10 la plus proche étant 1024
 ##PID
 
 Pour le PID on a déjà besoin de déterminer comment l’implémenter dans le code actuel. Il faut qu’il asservisse en boucle donc on mettra évidemment le code dans la loop. La fonction speed déclenche juste un “flag” permettant de commencer le PID et d’appliquer la consigne de vitesse. Dans la loop en plus du flags qui permet de commencer l’asservissement il faut aussi contrôler l’asservissement de courant et de vitesse pour qu’elle ne s’exécute que selon une période souhaitée. Pour le courant la fréquence d’asservissement s’aligne avec la fréquence de la PWM pour mesurer au bon moment le courant et réduire le bruit de commutation. Pour la vitesse le temps d’échantillonnage a été défini à 100ms lors du réglages des coefficients du PI.
+
+
+On a bouclé le système suivant le selon le schéma suivant :
+##Résultat :
+### Observation :
+On a testé en alimentant le moteur à Vcc. On a observé que le moteur ne tournait pas, du moins pas à la consigne demandé. On a donc décidé de débugger en envoyant dans le shell les valeurs que renvoyé les PID notamment celui de courant pour commencer. On s'est rendu compte que le PID de courant ne renvoyait pas de consigne cohérente et celles ci finissaient pas stagner à une valeure trop basse par rapport à ce qui était attendu.
+On a donc affiché dans le terminal les mesures de courant renvoyées par le capteur. Ces valeurs ne correspondaient pas du tout à ce que le générateur affiché pouvant conclure sur au moins une erreur de la mesure. 
+
+Pour vérifier l'écriture du PID, on aurait pu également tester celui de vitesse car la mesure de vitesse était correct ce qui aurait pu isoler le problème de la mesure de courant. 
+
+###Conclusion :
+Nous avons réussit à controler un moteur Mcc par une commande de PWM complémentaire décalée. Pour cela, on a réussit à utiliser le shell à notre disposition en écrivant des fonctions liant commande shell et commande moteur. Nous avons su récupérer les composants (transistors, capteurs) à partir de la documentation et utilisait leurs datasheet et le cours à disposition pour mesurer des grandeurs du système (vitesse, courant).
+A partir des simulations lors des Travaux dirigés, nous avons pu récupérer les coefficients du PID discret et implémenter un code permettant d'asservir le moteur. Il nous aura manqué un peu de temps pour debbug la mesure de courant et donc l'asservissement en boucle fermé du système. 
+
+
+
+
