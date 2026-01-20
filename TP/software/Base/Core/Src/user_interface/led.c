@@ -7,10 +7,29 @@
 
 #include "user_interface/led.h"
 
+/**
+ *
+ * @brief Init shell's function of led
+ *
+ * This function add the function led_control() in the shell
+ *
+ * @return 1 if the operation is valid, 0 otherwise.
+ */
 int led_init(){
 	return shell_add(&hshell1, "led", led_control, "Control LED");
 }
 
+/**
+ *
+ * @brief Allow to control the led in different modes
+ *
+ * This function change the state of the led according to the input. We can, on and off the led. We can also toggle it.
+ *
+ * @param h_shell The pointer to the shell instance.
+ * @param argc The number of command arguments.
+ * @param argv The array of command arguments.
+ * @return HAL_OK if the operation is valid, HAL_ERROR otherwise.
+ */
 int led_control(h_shell_t* h_shell, int argc, char** argv)
 {
 	int size;

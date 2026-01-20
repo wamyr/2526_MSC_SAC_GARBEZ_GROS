@@ -8,7 +8,7 @@
 #ifndef INC_MOTOR_CONTROL_MOTOR_H_
 #define INC_MOTOR_CONTROL_MOTOR_H_
 
-#define ARR_VALUE 8499 //résolution de plus de 10 bits
+#define ARR_VALUE 8499
 #define PSC_VALUE 0
 #define COMMAND_MAX_VALUE 8500
 #define COMMAND_HALF_MAX_VALUE 4250
@@ -18,6 +18,7 @@
 #define PERCENT_TO_MAX_CRR_VALUE_CONVERSION 85 // conversion to max CRR Value
 #define DUTY_CYCLE_MAX_VALUE 100
 
+#include <stdint.h>
 #include "tim.h"
 #include "user_interface/shell.h"
 #include "./app.h"

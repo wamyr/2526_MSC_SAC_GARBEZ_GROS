@@ -8,6 +8,14 @@
 #ifndef INC_MOTOR_CONTROL_ASSERV_H_
 #define INC_MOTOR_CONTROL_ASSERV_H_
 
+
+/**
+ * @struct PI_Controller
+ * @brief Structure représentant un correcteur Proportionnel-Intégral (PI).
+ * * Cette structure contient les gains, les limites de saturation (sortie et intégrateur),
+ * la période d'échantillonnage ainsi que les variables d'état (mémoire) nécessaires
+ * au calcul de la boucle de régulation.
+ */
 typedef struct {
 
 	/* Controller gains */
@@ -34,9 +42,6 @@ typedef struct {
 	float out;
 
 } PI_Controller;
-
-
-
 
 void  Current_PI_Controller_Init(PI_Controller *pi);
 void Speed_PI_Controller_Init(PI_Controller *pi);

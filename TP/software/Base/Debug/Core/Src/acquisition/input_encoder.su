@@ -1,0 +1,3 @@
+../Core/Src/acquisition/input_encoder.c:22:5:input_encoder_init	8	static
+../Core/Src/acquisition/input_encoder.c:37:5:encoder_show_speed	48	static
+../Core/Src/acquisition/input_encoder.c:58:6:Calcul_Vitesse_Precise	24	static

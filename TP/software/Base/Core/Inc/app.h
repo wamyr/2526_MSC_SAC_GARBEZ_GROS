@@ -17,7 +17,9 @@
 #include "tim.h"
 #include "user_interface/shell.h"
 #include "./acquisition/input_analog.h"
-#define VDC 12
+
+
+#define VDC 12 // utilisé pour le PID
 
 extern int start_asserv_flag ;
 extern PI_Controller Current_PI_Controller ;

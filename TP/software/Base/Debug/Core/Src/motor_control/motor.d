@@ -38,7 +38,8 @@ Core/Src/motor_control/motor.o: ../Core/Src/motor_control/motor.c \
  ../Core/Inc/././user_interface/led.h \
  ../Core/Inc/././motor_control/asserv.h ../Core/Inc/./tim.h \
  ../Core/Inc/./user_interface/shell.h \
- ../Core/Inc/././acquisition/input_analog.h
+ ../Core/Inc/././acquisition/input_analog.h \
+ ../Core/Inc/acquisition/input_encoder.h
 ../Core/Inc/motor_control/motor.h:
 ../Core/Inc/tim.h:
 ../Core/Inc/main.h:
@@ -85,3 +86,4 @@ Core/Src/motor_control/motor.o: ../Core/Src/motor_control/motor.c \
 ../Core/Inc/./tim.h:
 ../Core/Inc/./user_interface/shell.h:
 ../Core/Inc/././acquisition/input_analog.h:
+../Core/Inc/acquisition/input_encoder.h:

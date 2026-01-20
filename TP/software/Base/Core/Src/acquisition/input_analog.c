@@ -6,17 +6,7 @@
  */
 
 #include "acquisition/input_analog.h"
-#include <stdio.h>
-#include <string.h>
-
-extern ADC_HandleTypeDef hadc1;
-uint16_t adc_buffer[10];
-
-#define ADC_RESOLUTION      4096.0f
-#define ADC_VREF            3.3f
-#define SENSOR_SENSITIVITY  0.05f   // GO-SME 10 (0.05 V/A)
-#define V_OFFSET_THEO       (ADC_VREF / 2.0f)
-
+volatile uint16_t adc_buffer[10]; //DMA buffer current sensor
 
 int cmd_current(h_shell_t* h_shell, int argc, char** argv) {
     int size;
@@ -31,14 +21,16 @@ int cmd_current(h_shell_t* h_shell, int argc, char** argv) {
 
     if (strcmp(argv[1], "get") == 0) {
         float courant = Calculer_Courant_Moyen();
-
+        /*
         int partie_entiere = (int)courant;
         int partie_decimale = (int)((courant - partie_entiere) * 1000); // 3 décimales
         if (partie_decimale < 0) partie_decimale = -partie_decimale;
 
         size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE,
-                        "Courant Phase U: %d.%03d A\r\n", partie_entiere, partie_decimale);
+                        "Courant Phase U: %d.%03d A\r\n", partie_entiere, partie_decimale);*/
 
+        size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE,
+                        "Courant Phase U: %.2f A\r\n", courant);
         h_shell->drv.transmit(h_shell->print_buffer, size);
         return HAL_OK;
     }

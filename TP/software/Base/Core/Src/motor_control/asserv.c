@@ -7,6 +7,13 @@
 
 #include "motor_control/asserv.h"
 
+/**
+ * @brief clear pi current variables and init coefficients
+ *
+ * This fonction init the current's controller. It points on every variables of the pi structure and put it at 0. It points on ji, kp, T coefficients to put it at their values.
+ *
+ * @param pi the pointer of the structure pi
+ */
 void Current_PI_Controller_Init(PI_Controller *pi) {
 
 	/* Clear controller variables */
@@ -26,6 +33,13 @@ void Current_PI_Controller_Init(PI_Controller *pi) {
 
 }
 
+/**
+ * @brief clear pi speed variables and init coefficients
+ *
+ * This fonction init the speed's controller. It points on every variables of the pi structure and put it at 0. It points on ji, kp, T coefficients to put it at their values.
+ *
+ * @param pi the pointer of the structure pi
+ */
 void Speed_PI_Controller_Init(PI_Controller *pi) {
 
 	/* Clear controller variables */
@@ -45,6 +59,15 @@ void Speed_PI_Controller_Init(PI_Controller *pi) {
 
 }
 
+/**
+ * @brief The function which calculate at a period T the output of pi controller.
+ *
+ * This fonction is called at every period T of each controller to calculate their output.
+ *
+ * @param pi the pointer of the structure pi
+ * @param setpoint the float of the order
+ * @param setpoint the float of the measurement
+ */
 float PI_Controller_Update(PI_Controller *pi, float setpoint, float measurement) {
 
 	/*
