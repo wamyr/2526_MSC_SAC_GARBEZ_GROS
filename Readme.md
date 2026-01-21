@@ -81,7 +81,8 @@ Les deux correcteurs PI ont une limitation de sortie conforme aux caractéristiq
 De plus pour réaliser une correction correcte avec notre système discret, le PI est transformé dans le domaine discret selon la transformation bilinéaire. 
 Calcul de la sortie en fonction de l'erreur, de l'ancienne sortie et de l'ancienne erreur : 
 
-<img width="1491" height="720" alt="image" src="https://github.com/user-attachments/assets/813093ba-248a-499c-91b4-bac8fb9a706d" />
+<img width="1497" height="726" alt="image" src="https://github.com/user-attachments/assets/d139c829-5e83-4fd8-9f27-68e70d2488ac" />
+
 
 
 On a bouclé le système suivant le selon le schéma suivant :
