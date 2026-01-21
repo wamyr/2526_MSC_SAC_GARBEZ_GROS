@@ -77,9 +77,21 @@ On obtient un gain d'environ 1016, par définition du capteur, celui-ci ne peut 
 ## PID
 
 Pour le PID on a déjà besoin de déterminer comment l’implémenter dans le code actuel. Il faut qu’il asservisse en boucle donc on mettra évidemment le code dans la loop. La fonction speed déclenche juste un “flag” permettant de commencer le PID et d’appliquer la consigne de vitesse. Dans la loop en plus du flags qui permet de commencer l’asservissement il faut aussi contrôler l’asservissement de courant et de vitesse pour qu’elle ne s’exécute que selon une période souhaitée. Pour le courant la fréquence d’asservissement s’aligne avec la fréquence de la PWM pour mesurer au bon moment le courant et réduire le bruit de commutation. Pour la vitesse le temps d’échantillonnage a été défini à 100ms lors du réglages des coefficients du PI.
+Les deux correcteurs PI ont une limitation de sortie conforme aux caractéristiques du moteur, ainsi qu'une limite anti windup au niveau correcteur intégral. 
+De plus pour réaliser une correction correcte avec notre système discret, le PI est transformé dans le domaine discret selon la transformation bilinéaire. 
+Calcul de la sortie en fonction de l'erreur, de l'ancienne sortie et de l'ancienne erreur : 
+
+<img width="1497" height="726" alt="image" src="https://github.com/user-attachments/assets/d139c829-5e83-4fd8-9f27-68e70d2488ac" />
+
 
 
 On a bouclé le système suivant le selon le schéma suivant :
+
+<img width="1844" height="350" alt="image" src="https://github.com/user-attachments/assets/4a264f1f-2fd6-4beb-8a79-14bfa6a2a0f0" />
+Version pdf : [MSC_SAC_Asserv-schemablock.pdf](https://github.com/user-attachments/files/24754202/MSC_SAC_Asserv-schemablock.pdf)
+
+On s'est basé sur ce schéma pour faire le PI. Cependant le modèle qui nous a été fourni duquel a été déterminé les coefficients n'est pas tout à fait pareil. En effet, en sorti de l'asservissement de courant on obtenait le rapport cyclique. Cela explique peut-être pourquoi le correcteur de courant ne fonctionnait pas et saturait à 1V. 
+
 ## Résultat :
 ### Observation :
 On a testé en alimentant le moteur à Vcc. On a observé que le moteur ne tournait pas, du moins pas à la consigne demandé. On a donc décidé de débugger en envoyant dans le shell les valeurs que renvoyé les PID notamment celui de courant pour commencer. On s'est rendu compte que le PID de courant ne renvoyait pas de consigne cohérente et celles ci finissaient pas stagner à une valeure trop basse par rapport à ce qui était attendu.
@@ -91,7 +103,3 @@ Pour vérifier l'écriture du PID, on aurait pu également tester celui de vites
 Nous avons réussit à controler un moteur Mcc par une commande de PWM complémentaire décalée. Pour cela, on a réussit à utiliser le shell à notre disposition en écrivant des fonctions liant commande shell et commande moteur. Nous avons su récupérer les composants (transistors, capteurs) à partir de la documentation et utilisait leurs datasheet et le cours à disposition pour mesurer des grandeurs du système (vitesse, courant).
 A partir des simulations lors des Travaux dirigés, nous avons pu récupérer les coefficients du PID discret et implémenter un code permettant d'asservir le moteur. Il nous aura manqué un peu de temps pour debbug la mesure de courant et donc l'asservissement en boucle fermé du système. 
 On aurait surement dû ajouter une calibration du capteur de courant car comme expliqué dans la datasheet, il y a effectivement la possibilité que la sensibilité ne soit pas exactement celle annoncée.
-
-
-
-
