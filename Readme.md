@@ -83,12 +83,11 @@ Calcul de la sortie en fonction de l'erreur, de l'ancienne sortie et de l'ancien
 
 <img width="1491" height="720" alt="image" src="https://github.com/user-attachments/assets/813093ba-248a-499c-91b4-bac8fb9a706d" />
 
-\newline
+
 On a bouclé le système suivant le selon le schéma suivant :
 
-
 <img width="1844" height="350" alt="image" src="https://github.com/user-attachments/assets/4a264f1f-2fd6-4beb-8a79-14bfa6a2a0f0" />
-
+Version pdf : [MSC_SAC_Asserv-schemablock.pdf](https://github.com/user-attachments/files/24754202/MSC_SAC_Asserv-schemablock.pdf)
 
 On s'est basé sur ce schéma pour faire le PI. Cependant le modèle qui nous a été fourni duquel a été déterminé les coefficients n'est pas tout à fait pareil. En effet, en sorti de l'asservissement de courant on obtenait le rapport cyclique. Cela explique peut-être pourquoi le correcteur de courant ne fonctionnait pas et saturait à 1V. 
 
