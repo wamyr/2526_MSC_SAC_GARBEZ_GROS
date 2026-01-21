@@ -12,7 +12,7 @@
 /**
  * @struct PI_Controller
  * @brief Structure représentant un correcteur Proportionnel-Intégral (PI).
- * * Cette structure contient les gains, les limites de saturation (sortie et intégrateur),
+ * @details Cette structure contient les gains, les limites de saturation (sortie et intégrateur),
  * la période d'échantillonnage ainsi que les variables d'état (mémoire) nécessaires
  * au calcul de la boucle de régulation.
  */
@@ -42,6 +42,10 @@ typedef struct {
 	float out;
 
 } PI_Controller;
+
+
+#define VDC 48 //doublon
+
 
 void  Current_PI_Controller_Init(PI_Controller *pi);
 void Speed_PI_Controller_Init(PI_Controller *pi);

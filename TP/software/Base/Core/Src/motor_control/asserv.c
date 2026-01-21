@@ -10,7 +10,7 @@
 /**
  * @brief clear pi current variables and init coefficients
  *
- * This fonction init the current's controller. It points on every variables of the pi structure and put it at 0. It points on ji, kp, T coefficients to put it at their values.
+ * @details This fonction init the current's controller. It points on every variables of the pi structure and put it at 0. It points on ji, kp, T coefficients to put it at their values.
  *
  * @param pi the pointer of the structure pi
  */
@@ -24,19 +24,26 @@ void Current_PI_Controller_Init(PI_Controller *pi) {
 
 	pi->out = 0.0f;
 
+	/* Limit values */
+	pi->limMaxInt= VDC;
+	pi->limMinInt= -VDC;
+
+	pi->limMax = VDC ;
+	pi->limMin = -VDC ;
+
 	/* PI coefficient values */
-	pi->Kp = 0.0112664025854474 ;
-	pi->Ki = 4.7381474597804 ;
+	pi->Kp = 0.007 ;
+	pi->Ki = 12 ;
 
 	/* Sample Time */
-	pi->T = 0.001 ;
+	pi->T = 0.00005 ;
 
 }
 
 /**
  * @brief clear pi speed variables and init coefficients
  *
- * This fonction init the speed's controller. It points on every variables of the pi structure and put it at 0. It points on ji, kp, T coefficients to put it at their values.
+ * @details This fonction init the speed's controller. It points on every variables of the pi structure and put it at 0. It points on ji, kp, T coefficients to put it at their values.
  *
  * @param pi the pointer of the structure pi
  */
@@ -50,19 +57,26 @@ void Speed_PI_Controller_Init(PI_Controller *pi) {
 
 	pi->out = 0.0f;
 
+	/* Limit values */
+	pi->limMaxInt= 50;
+	pi->limMinInt= -50;
+
+	pi->limMax = 3 ;
+	pi->limMin = -3 ;
+
 	/* PI coefficient values */
-	pi->Kp = 0.0f ;
-	pi->Ki = 0.0f ;
+	pi->Kp = 0.15 ;
+	pi->Ki = 0.06 ;
 
 	/* Sample Time */
-	pi->T = 0.001 ;
+	pi->T = 0.05 ;
 
 }
 
 /**
  * @brief The function which calculate at a period T the output of pi controller.
  *
- * This fonction is called at every period T of each controller to calculate their output.
+ * @details This fonction is called at every period T of each controller to calculate their output.
  *
  * @param pi the pointer of the structure pi
  * @param setpoint the float of the order

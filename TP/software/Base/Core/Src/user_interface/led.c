@@ -11,7 +11,7 @@
  *
  * @brief Init shell's function of led
  *
- * This function add the function led_control() in the shell
+ * @details This function add the function led_control() in the shell
  *
  * @return 1 if the operation is valid, 0 otherwise.
  */
@@ -23,7 +23,7 @@ int led_init(){
  *
  * @brief Allow to control the led in different modes
  *
- * This function change the state of the led according to the input. We can, on and off the led. We can also toggle it.
+ * @details This function change the state of the led according to the input. We can, on and off the led. We can also toggle it.
  *
  * @param h_shell The pointer to the shell instance.
  * @param argc The number of command arguments.

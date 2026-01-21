@@ -15,7 +15,7 @@ float rpm =0;
  *
  * @brief Init shell's function of encoder
  *
- * This function add the function encoder_show_speed() in the shell
+ * @details This function add the function encoder_show_speed() in the shell
  *
  * @return 1 if the operation is valid, 0 otherwise.
  */
@@ -27,7 +27,7 @@ int input_encoder_init(){
  *
  * @brief print on the shell rpm value
  *
- * This function print in the shell the value of rpm calculated by Calcul_Vitesse_Precise(void).
+ * @details This function print in the shell the value of rpm calculated by Calcul_Vitesse_Precise(void).
  *
  * @param h_shell The pointer to the shell instance.
  * @param argc The number of command arguments.
@@ -43,6 +43,7 @@ int encoder_show_speed(h_shell_t* h_shell, int argc, char** argv){
 		return HAL_ERROR;
 	}
 	size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "motor speed with speed : %.2f tr/min\r\n", rpm);
+	size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "motor speed : %.2f tr/min\r\n", rpm);
 	h_shell->drv.transmit(h_shell->print_buffer, size);
 
 	return HAL_OK;
@@ -52,7 +53,7 @@ int encoder_show_speed(h_shell_t* h_shell, int argc, char** argv){
  *
  * @brief Calculate the speed of the motor at a moment.
  *
- * This function read the tick of the timer configured on encoder mode to calculate a delta t. With this, the function can calculate the delta position of the encoder and so the speed of the motor. The function did that without forgotten the different conversions
+ * @details This function read the tick of the timer configured on encoder mode to calculate a delta t. With this, the function can calculate the delta position of the encoder and so the speed of the motor. The function did that without forgotten the different conversions
  *
  */
 void Calcul_Vitesse_Precise(void) {
@@ -71,5 +72,4 @@ void Calcul_Vitesse_Precise(void) {
 	ancien_temps_us = temps_actuel_us;
 	ancien_CNT_encodeur = cnt_actuel;
 }
-
 

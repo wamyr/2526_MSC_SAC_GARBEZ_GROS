@@ -1,5 +1,5 @@
-../Core/Src/motor_control/motor.c:21:5:motor_init	8	static
-../Core/Src/motor_control/motor.c:26:5:motor_start	32	static
-../Core/Src/motor_control/motor.c:61:5:motor_speed	32	static
-../Core/Src/motor_control/motor.c:99:6:motor_ramp_update	24	static
-../Core/Src/motor_control/motor.c:111:13:delay_periods	16	static
+../Core/Src/motor_control/motor.c:30:5:motor_init	8	static
+../Core/Src/motor_control/motor.c:46:5:motor_start	32	static
+../Core/Src/motor_control/motor.c:91:5:motor_speed	32	static
+../Core/Src/motor_control/motor.c:139:6:motor_ramp_update	24	static
+../Core/Src/motor_control/motor.c:161:13:delay_periods	16	static

@@ -18,7 +18,7 @@ h_shell_t hshell1;
 /**
  * @brief Checks if a character is valid for a shell command.
  *
- * This function checks if a character is valid for a shell command. Valid characters include alphanumeric characters and spaces.
+ * @details This function checks if a character is valid for a shell command. Valid characters include alphanumeric characters and spaces.
  *
  * @param c The character to check.
  * @return 1 if the character is valid, 0 otherwise.
@@ -50,7 +50,7 @@ static int is_string_valid(char* str)
 /**
  * @brief Help command implementation.
  *
- * This function is the implementation of the help command. It displays the list of available shell commands and their descriptions.
+ * @details This function is the implementation of the help command. It displays the list of available shell commands and their descriptions.
  *
  * @param h_shell The pointer to the shell instance.
  * @param argc The number of command arguments.
@@ -88,7 +88,7 @@ static int sh_test_list(h_shell_t* h_shell, int argc, char** argv)
 /**
  * @brief Initializes the shell instance.
  *
- * This function initializes the shell instance by setting up the internal data structures and registering the help command.
+ * @details This function initializes the shell instance by setting up the internal data structures and registering the help command.
  *
  * @param h_shell The pointer to the shell instance.
  */
@@ -109,7 +109,7 @@ void shell_init(h_shell_t* h_shell)
 /**
  * @brief Adds a shell command to the instance.
  *
- * This function adds a shell command to the shell instance.
+ * @details This function adds a shell command to the shell instance.
  *
  * @param h_shell The pointer to the shell instance.
  * @param c The character trigger for the command.
@@ -136,7 +136,7 @@ int shell_add(h_shell_t* h_shell, char* string_func_code, shell_func_pointer_t p
 /**
  * @brief Executes a shell command.
  *
- * This function executes a shell command based on the input buffer.
+ * @details This function executes a shell command based on the input buffer.
  *
  * @param h_shell The pointer to the shell instance.
  * @param buf The input buffer containing the command.
@@ -178,7 +178,7 @@ static int shell_exec(h_shell_t* h_shell, char* buf)
 /**
  * @brief Runs the shell.
  *
- * This function runs the shell, processing user commands.
+ * @details This function runs the shell, processing user commands.
  *
  * @param h_shell The pointer to the shell instance.
  * @return Never returns, it's an infinite loop.

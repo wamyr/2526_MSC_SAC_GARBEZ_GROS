@@ -6,19 +6,20 @@
  */
 
 #include "app.h"
-#include "acquisition/input_encoder.h"
-#include "acquisition/input_analog.h"
-#include "user_interface/shell.h"
 
 //We can declare this variable and structure here because we use them only in this file
 PI_Controller Current_PI_Controller ;
+PI_Controller Speed_PI_Controller ;
+
 int start_asserv_flag = 0 ;
+int current_asserv = 0 ;
+int speed_asserv = 0 ;
 static char shell_uart2_received_char;
 
 /**
  * @brief Init the different shell's functions
  *
- * This function define wich uart we'll use for the shell and init the different functions in this TP.
+ * @details This function define wich uart we'll use for the shell and init the different functions in this TP.
  *
  */
 void init_device(void){
@@ -71,7 +72,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 /**
  * @brief loop function
  *
- * This function is used to update speed and current controller. At every period of each controller, their respectively flag is turn on 1 and allow to update their output.
+ * @details This function is used to update speed and current controller. At every period of each controller, their respectively flag is turn on 1 and allow to update their output.
  *
  */
 void loop(){

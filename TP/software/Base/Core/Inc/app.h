@@ -19,10 +19,15 @@
 #include "./acquisition/input_analog.h"
 
 
-#define VDC 12 // utilisé pour le PID
+
+#include "./acquisition/input_encoder.h"
+#define VDC 48
+#define SPEED_ASSERV_PERIOD 50
 
 extern int start_asserv_flag ;
 extern PI_Controller Current_PI_Controller ;
+extern int current_asserv ;
+extern int speed_asserv ;
 
 void init_device();
 void loop();

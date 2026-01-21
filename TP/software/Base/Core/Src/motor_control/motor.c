@@ -23,7 +23,7 @@ static void delay_periods(h_shell_t* h_shell, uint16_t us);
  *
  * @brief Init shell's function of motor command
  *
- * This function add the function motor_start() and motor_speed() in the shell
+ * @details This function add the function motor_start() and motor_speed() in the shell
  *
  * @return 1 if the operation is valid, 0 otherwise.
  */
@@ -36,7 +36,7 @@ int motor_init(){
  *
  * @brief Start the PWMs for the command of the DC motor.
  *
- * This function allow to start or stop the command of the chopper bridge arm. If we want to start the motor, the CCR register is set to this half value to avoid the start of the motor without this will.
+ * @details This function allow to start or stop the command of the chopper bridge arm. If we want to start the motor, the CCR register is set to this half value to avoid the start of the motor without this will.
  *
  * @param h_shell The pointer to the shell instance.
  * @param argc The number of command arguments.
@@ -81,7 +81,7 @@ int motor_start(h_shell_t* h_shell, int argc, char** argv){
  *
  * @brief Set duty cycle of the PWMs.
  *
- * This function verify if the value of the duty cycle is between the valid values. If it's the case, we make an operation to convert the duty cycle into CCR Value.
+ * @details This function verify if the value of the duty cycle is between the valid values. If it's the case, we make an operation to convert the duty cycle into CCR Value.
  *
  * @param h_shell The pointer to the shell instance.
  * @param argc The number of command arguments.
@@ -92,26 +92,27 @@ int motor_speed(h_shell_t* h_shell, int argc, char** argv){
 	int size;
 
 	if(argc!=TWO_ARGUMENTS){
-		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Need 2 arguments : motor duty cycle in pourcent\r\n");
+		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Need 2 arguments : motor speed in rpm\r\n");
 		h_shell->drv.transmit(h_shell->print_buffer, size);
 		return HAL_ERROR;
 	}
 
 	//int speed_order = atoi(argv[1])*PERCENT_TO_MAX_CRR_VALUE_CONVERSION;
 	int user_command = atoi(argv[1]);
-	if((user_command > 0) && (user_command < DUTY_CYCLE_MAX_VALUE)){
-
-
-		//motor_ramp_update(h_shell, user_command*PERCENT_TO_MAX_CRR_VALUE_CONVERSION);
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, user_command*PERCENT_TO_MAX_CRR_VALUE_CONVERSION); // to make sure in the end we have the right value
-		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE-user_command*PERCENT_TO_MAX_CRR_VALUE_CONVERSION);
+	if((user_command > -MOTOR_SPEED_MAX_VALUE) && (user_command < MOTOR_SPEED_MAX_VALUE)){
+/*
+		motor_ramp_update(h_shell, user_command*100/3000*PERCENT_TO_MAX_CRR_VALUE_CONVERSION);
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, user_command*100/3000*PERCENT_TO_MAX_CRR_VALUE_CONVERSION); // to make sure in the end we have the right value
+		__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_2, COMMAND_MAX_VALUE-user_command*100/3000*PERCENT_TO_MAX_CRR_VALUE_CONVERSION);
 
 		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "motor speed : %d. Don't forget to start the motor before\r\n", user_command);
 		h_shell->drv.transmit(h_shell->print_buffer, size);
+*/
+
 
 /*
 		start_asserv_flag = 1 ;
-		motor_command = user_command ; // for now
+		motor_command = user_command*2 *PI / 60 ; // for now
 
 		size = snprintf(h_shell->print_buffer, SHELL_PRINT_BUFFER_SIZE, "Controller working. Don't forget to start the motor before\r\n");
 		h_shell->drv.transmit(h_shell->print_buffer, size);
@@ -129,7 +130,7 @@ int motor_speed(h_shell_t* h_shell, int argc, char** argv){
  *
  * @brief Make a ramp to pass to a value of order to another one.
  *
- * This function get the value of the current value of CCR register and change that one by an increment at each period.
+ * @details This function get the value of the current value of CCR register and change that one by an increment at each period.
  *
  * @param h_shell The pointer to the shell instance.
  * @param speed_order The int of the speed order
@@ -151,7 +152,7 @@ void motor_ramp_update(h_shell_t* h_shell, int speed_order) {
  *
  * @brief Function to replace HAL_Delay().
  *
- * This function allow to wait until the timer reach a value calculated with the frequency of the timer and coherent value to wait.
+ * @details This function allow to wait until the timer reach a value calculated with the frequency of the timer and coherent value to wait.
  *
  * @param h_shell The pointer to the shell instance.
  * @param crr_to_reach_value The value of the CRR register to reach

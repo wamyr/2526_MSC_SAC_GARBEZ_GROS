@@ -13,10 +13,13 @@
 #include "user_interface/shell.h"
 #include "./app.h"
 
+
 #define SENS_ROTATION_CORRECTION  (-1.0f) //l'encodeur est inversé par rapport au moteur
 #define USECOND_SECOND_CONVERSION 1000000.0f
 #define SECOND_MINUTE_CONVERSION 60.0f
 #define STEP_ROTATION_CONVERSION 4096.0f // 4096 pas = 1 tour with this encoder mode
+#define PI 3.1415
+
 
 extern uint16_t ancien_temps_us;
 extern uint16_t ancien_CNT_encodeur;

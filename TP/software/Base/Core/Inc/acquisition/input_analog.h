@@ -12,6 +12,7 @@
 #include "user_interface/shell.h"
 #include <stdio.h>
 #include <string.h>
+#include "app.h"
 
 extern ADC_HandleTypeDef hadc1;
 
